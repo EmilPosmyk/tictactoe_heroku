@@ -3,7 +3,6 @@ from flask_session import Session
 from tempfile import mkdtemp
 import math
 
-
 app = Flask(__name__)
 
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -24,7 +23,7 @@ def game():
         session["board"] = [[None,None,None],
                             [None,None, None],
                             [None,None, None]]
-        session["turn"] = "Alice"
+        session["turn"] = "PLAYER_1"
     ans = CheckWinner(session["board"])
     if(ans[0] == True):
         return render_template("finish.html",ans="{} Player is Won!".format(ans[1]))
@@ -36,10 +35,10 @@ def game():
 @app.route("/play/<int:row>/<int:col>")
 def play(row,col):
     session["board"][row][col] = session["turn"]
-    if session["turn"] == "Alice":
-        session["turn"] = "Bob"
+    if session["turn"] == "PLAYER_1":
+        session["turn"] = "PLAYER_2"
     else:
-        session["turn"] = "Alice"
+        session["turn"] = "PLAYER_1"
     return redirect(url_for("game"))
 
 @app.route("/clear")
@@ -47,10 +46,10 @@ def clear():
     session["board"] = [[None,None,None],
                         [None,None, None],
                         [None,None, None]]
-    session["turn"] = "Alice"
+    session["turn"] = "PLAYER_1"
     return redirect(url_for("game"))
 
-def CheckWinner(board): # [x,y] for x iff game is finished with winner and y = "Draw" if the game is draw, else, the winner (["Alice","Y"])
+def CheckWinner(board): # [x,y] for x iff game is finished with winner and y = "Draw" if the game is draw, else, the winner (["PLAYER_1","Y"])
     # Checking the rows..
     for i in range(3):
         for j in range(3):
@@ -94,9 +93,9 @@ def help():
 
 def minimax(board,turn):
     ans = CheckWinner(board)
-    if(ans[0] == True and ans[1] == "Alice"):
+    if(ans[0] == True and ans[1] == "PLAYER_1"):
         return (1,None)
-    elif(ans[0] == True and ans[1] == "Bob"):
+    elif(ans[0] == True and ans[1] == "PLAYER_2"):
         return (-1,None)
     elif(ans[0] == False and ans[1] == "Draw"):
         return (0,None)
@@ -107,20 +106,20 @@ def minimax(board,turn):
                 if(board[i][j] == None):
                     moves.append((i,j))
         # All Moves that avaliabe are now at moves
-        if turn == "Alice":
+        if turn == "PLAYER_1":
             value = -2
             for i,j in moves:
-                board[i][j] = "Alice"
-                result = minimax(board,"Bob")[0]
+                board[i][j] = "PLAYER_1"
+                result = minimax(board,"PLAYER_2")[0]
                 if(value < result):
                     value = result
                     step = (i,j)
                 board[i][j] = None
-        elif turn == "Bob": # turn is "Bob"
+        elif turn == "PLAYER_2": # turn is "PLAYER_2"
             value = 2
             for i,j in moves:
-                board[i][j] = "Bob"
-                result = minimax(board,"Alice")[0]
+                board[i][j] = "PLAYER_2"
+                result = minimax(board,"PLAYER_1")[0]
                 if(value > result):
                     value = result
                     step = (i,j)
