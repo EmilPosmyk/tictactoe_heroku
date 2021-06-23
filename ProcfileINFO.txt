@@ -1,0 +1,3 @@
+gunicorn - web server
+application - python file name
+app - name of variable inside application.py file
