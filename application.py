@@ -44,8 +44,8 @@ def play(row,col):
 @app.route("/clear")
 def clear():
     session["board"] = [[None,None,None],
-                        [None,None, None],
-                        [None,None, None]]
+                        [None,None,None],
+                        [None,None,None]]
     session["turn"] = "PLAYER_1"
     return redirect(url_for("game"))
 
