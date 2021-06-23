@@ -7,10 +7,10 @@
             {% for j in range(3) %}
                 <td>
                     {% if game[i][j] == "Alice" %}
-                       <img src="/images/alice-png-7.png"/>
+                       <img src="{{url_for('static', filename='alice.png')}}"/>
                        <!--<img src="http://www.transparentpng.com/thumb/alice/alice-png-7.png"/>-->
                     {% elif game[i][j] == "Bob" %}
-                        <img src="/images/Bob-PNG-File.png"/>
+                        <img src="{{url_for('static', filename='bob.png')}}"/>
                         <!--<img src="http://pngriver.com/wp-content/uploads/2018/04/Download-Bob-PNG-Image.png"/>-->
                     {% else %}
                         <a href="{{ url_for('play',row=i,col=j) }}">{{ turn }}</a>
