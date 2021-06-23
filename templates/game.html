@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>its {{ turn}} Turn!</h1>
+<h1>It is {{ turn}} Turn !</h1>
     <table align="center">
     {% for i in range(3) %}
         <tr>
             {% for j in range(3) %}
                 <td>
                     {% if game[i][j] == "PLAYER_1" %}
-                       <img src="{{url_for('static', filename='circle.png')}}"/>
+                       <img src="{{url_for('static', filename='circle.png')}}" style="width: 60%; height: 60%;"/>
                     {% elif game[i][j] == "PLAYER_2" %}
-                        <img src="{{url_for('static', filename='x.png')}}"/>
+                        <img src="{{url_for('static', filename='x.png')}}" style="width: 60%; height: 60%;"/>
                     {% else %}
                         <a href="{{ url_for('play',row=i,col=j) }}">{{ turn }}</a>
                     {% endif %}
@@ -20,7 +20,7 @@
     </table>
     <a style="margin-top:10px" href="/clear" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Clear
-    </a>
+    </a>&nbsp;&nbsp;&nbsp;
     <a style="margin-top:10px" href="/help" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Help Me!
     </a>
